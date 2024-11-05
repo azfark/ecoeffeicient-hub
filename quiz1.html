@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Energy Awareness Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e0f7fa; /* Light blue background */
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .quiz {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 600px;
+            margin: auto;
+        }
+        h2 {
+            color: #1e88e5;
+            text-align: center;
+        }
+        p {
+            text-align: center;
+        }
+        button {
+            background-color: #1e88e5;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 16px;
+            display: block;
+            margin: 20px auto;
+        }
+        button:hover {
+            background-color: #1565c0;
+        }
+        .quiz-section {
+            margin-top: 30px;
+            padding: 20px;
+            border-top: 2px solid #1e88e5;
+        }
+        .quiz-question {
+            margin-top: 20px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 15px;
+        }
+        .quiz-question h3 {
+            margin: 10px 0;
+            color: #1e88e5;
+        }
+        .quiz-option {
+            display: block;
+            background-color: #b2ebf2; /* Light blue option background */
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            position: relative;
+        }
+        .quiz-option:hover {
+            background-color: #81d4fa; /* Slightly darker hover effect */
+        }
+        .quiz-option.selected {
+            background-color: #1e88e5;
+            color: white;
+        }
+        .quiz-option.incorrect {
+            background-color: #f44336;
+            color: white;
+        }
+        .quiz-option.correct {
+            background-color: #4caf50;
+            color: white;
+        }
+        .explanation {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+            font-weight: normal;
+        }
+        .explanation.correct {
+            background-color: #4caf50;
+            color: white;
+        }
+        .explanation.incorrect {
+            background-color: #f44336;
+            color: white;
+        }
+        .question-number {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<section class="quiz">
+    <h2>Energy Awareness Quiz</h2>
+    <p>Test your knowledge about energy consumption and wastage:</p>
+    <button onclick="startQuiz()">Start Quiz</button>
+    <div id="quiz-container" style="display:none;">
+        <div id="quiz-questions"></div>
+    </div>
+</section>
+
+<script>
+    const questions = [
+        {
+            section: "Part 1: Phantom Energy",
+            questions: [
+                { question: "What is phantom energy consumption?", options: ["Devices consuming energy while off", "Energy wasted in the atmosphere", "Energy from renewable sources"], answer: 0, explanation: "Phantom energy consumption refers to the energy used by devices that are plugged in but not in use." },
+                { question: "What is the purpose of a smart power strip?", options: ["To charge multiple devices", "To cut off power to idle devices", "To increase energy consumption"], answer: 1, explanation: "Smart power strips cut off power to devices that are not in use, reducing phantom energy consumption." },
+                { question: "Which of the following contributes to phantom energy consumption?", options: ["Unplugging devices", "Using a power strip", "Leaving chargers plugged in"], answer: 2, explanation: "Leaving chargers plugged in can contribute to phantom energy consumption." },
+            ]
+        },
+        {
+            section: "Part 2: Energy Efficiency",
+            questions: [
+                { question: "What is the main benefit of energy-efficient appliances?", options: ["Lower energy bills", "Increased functionality", "Better aesthetics"], answer: 0, explanation: "Energy-efficient appliances use less energy, which directly reduces energy bills." },
+                { question: "How can solar panels help reduce energy consumption?", options: ["By consuming more energy", "By providing renewable energy", "By decreasing energy needs"], answer: 1, explanation: "Solar panels provide renewable energy that can reduce reliance on fossil fuels." },
+                { question: "What is the purpose of energy labels on appliances?", options: ["To increase sales", "To indicate energy efficiency", "To make appliances look attractive"], answer: 1, explanation: "Energy labels indicate the energy efficiency of appliances, helping consumers make informed choices." },
+            ]
+        },
+        {
+            section: "Part 3: E-Waste and Recycling",
+            questions: [
+                { question: "How can you minimize e-waste?", options: ["Throw away old gadgets", "Donate or sell old devices", "Keep all gadgets forever"], answer: 1, explanation: "Donating or selling old devices gives them a second life and reduces e-waste." },
+                { question: "What is the impact of e-waste on the environment?", options: ["No impact", "Pollution and resource depletion", "Improved soil quality"], answer: 1, explanation: "E-waste can lead to pollution and the depletion of valuable resources." },
+                { question: "Why is recycling e-waste important?", options: ["To increase waste", "To recover valuable materials", "It is not important"], answer: 1, explanation: "Recycling e-waste helps recover valuable materials and reduces landfill waste." },
+            ]
+        },
+        {
+            section: "Part 4: General Energy Awareness",
+            questions: [
+                { question: "Which device typically consumes the most energy in a home?", options: ["Refrigerator", "Television", "Computer"], answer: 0, explanation: "Refrigerators usually consume the most energy as they run continuously." },
+                { question: "What is the best way to dispose of e-waste?", options: ["Throw it in the trash", "Follow local disposal guidelines", "Burn it"], answer: 1, explanation: "Following local disposal guidelines ensures e-waste is handled safely." },
+                { question: "What is the average percentage of household energy used by idle gadgets?", options: ["5%", "10%", "15%"], answer: 1, explanation: "Idle gadgets can account for approximately 10% of household energy usage." },
+                { question: "What is an eco-friendly way to dispose of old electronics?", options: ["Throw them away", "Recycle at a designated facility", "Bury them"], answer: 1, explanation: "Recycling at a designated facility ensures safe and responsible disposal." },
+                { question: "How can you track your energy consumption?", options: ["By guessing", "Using a smart meter", "It is impossible"], answer: 1, explanation: "Using a smart meter allows for accurate tracking of energy consumption." },
+                { question: "What is one way to save energy while using your computer?", options: ["Keep it on all the time", "Use sleep mode when not in use", "Avoid updates"], answer: 1, explanation: "Using sleep mode when not in use can save significant energy." },
+            ]
+        }
+    ];
+
+    function startQuiz() {
+        const quizContainer = document.getElementById('quiz-questions');
+        quizContainer.innerHTML = '';
+        questions.forEach((section, sectionIndex) => {
+            quizContainer.innerHTML += `<h3>${section.section}</h3>`;
+            section.questions.forEach((q, index) => {
+                quizContainer.innerHTML += `
+                    <div class="quiz-question">
+                        <div class="question-number">Question ${index + 1}:</div>
+                        <p>${q.question}</p>
+                        ${q.options.map((option, i) => `
+                            <div class="quiz-option" onclick="selectOption(this, ${sectionIndex}, ${index}, ${i})">
+                                ${option}
+                                <input type="radio" name="question${sectionIndex}-${index}" value="${i}" style="display:none;">
+                            </div>
+                        `).join('')}
+                        <button onclick="checkAnswer(${sectionIndex}, ${index})">Submit</button>
+                        <div class="explanation" id="explanation${sectionIndex}-${index}" style="display:none;"></div>
+                    </div>
+                `;
+            });
+        });
+        document.getElementById('quiz-container').style.display = 'block';
+        document.querySelector('.quiz button').style.display = 'none';
+    }
+
+    function selectOption(optionElement, sectionIndex, questionIndex, selectedIndex) {
+        const options = document.querySelectorAll(`input[name="question${sectionIndex}-${questionIndex}"]`);
+        options.forEach((option, i) => {
+            if (i === selectedIndex) {
+                option.checked = true;
+                optionElement.classList.add('selected');
+            } else {
+                optionElement.parentNode.querySelectorAll('.quiz-option')[i].classList.remove('selected');
+            }
+        });
+    }
+
+    function checkAnswer(sectionIndex, questionIndex) {
+        const selected = document.querySelector(`input[name="question${sectionIndex}-${questionIndex}"]:checked`);
+        const explanationDiv = document.getElementById(`explanation${sectionIndex}-${questionIndex}`);
+        if (selected) {
+            const selectedValue = parseInt(selected.value);
+            const correctAnswer = questions[sectionIndex].questions[questionIndex].answer;
+            if (selectedValue === correctAnswer) {
+                explanationDiv.innerHTML = `<span class="explanation correct">Correct!</span> ${questions[sectionIndex].questions[questionIndex].explanation}`;
+                explanationDiv.className = 'explanation correct';
+            } else {
+                explanationDiv.innerHTML = `<span class="explanation incorrect">Incorrect!</span> The correct answer is: ${questions[sectionIndex].questions[questionIndex].options[correctAnswer]}. ${questions[sectionIndex].questions[questionIndex].explanation}`;
+                explanationDiv.className = 'explanation incorrect';
+            }
+            explanationDiv.style.display = 'block';
+        } else {
+            alert('Please select an answer before submitting!');
+        }
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecoefficient Hub</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+<style>
+   .modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+.modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    position: relative;
+}
+.close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    cursor: pointer;
+    font-size: 20px;
+}
+    body {
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
+        line-height: 1.6;
+        color: #333;
+        background: linear-gradient(to right, #e0f7fa, #b2ebf2);
+        transition: background 0.5s ease-in-out;
+    }
+    header {
+        background: #00796b; /* Teal color for header */
+        color: #fff;
+        padding: 15px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        transition: background 0.5s ease;
+    }
+    header:hover {
+        background: #004d40; /* Darker teal on hover */
+    }
+
+    header .logo-container {
+        display: flex;
+        align-items: center;
+    }
+
+    header .logo {
+        width: 60px;
+        margin-right: 10px;
+    }
+
+    header nav ul {
+        list-style: none;
+        display: flex;
+        gap: 20px;
+    }
+
+    header nav ul li a {
+        color: #fff;
+        text-decoration: none;
+        font-weight: bold;
+        transition: color 0.3s;
+    }
+
+    header nav ul li a:hover {
+        color: #b2ebf2;
+    }
+    .hero {
+        background: #ffffff; 
+        padding: 60px 20px;
+        text-align: center;
+        border-radius: 8px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.3s ease;
+    }
+
+    .hero:hover {
+        box-shadow: 0 8px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .hero h2 {
+        color: #00796b;        font-size: 2.8em;
+        margin-bottom: 15px;
+    }
+    .section {
+        padding: 30px;
+        background: #f4f4f4;
+        margin: 20px 0;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+    }
+    .section:hover {
+        transform: translateY(-5px);
+    }
+    .section h2 {
+        color: #00796b;  
+      font-size: 2em;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+    .content-section {
+        padding: 20px;
+        background: #ffffff;
+        margin: 20px auto;
+        max-width: 900px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        transition: box-shadow 0.3s ease;
+    }
+    .content-section:hover {
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+    .content-section h3 {
+        color: #004d40;        font-size: 1.8em;
+        margin-bottom: 10px;
+    }
+    .content-section p {
+        margin-bottom: 15px;
+        line-height: 1.6;
+    }
+    #ewaste-calculator {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background: #e0f2f1;         border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    #ewaste-calculator label {
+        margin: 10px 0 5px;
+        font-weight: bold;
+    }
+    #ewaste-calculator input {
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #00796b;
+        border-radius: 5px;
+        width: 100%;
+        max-width: 300px;
+        transition: border 0.3s;
+    }
+    #ewaste-calculator input:focus {
+        border-color: #004d40;        outline: none;
+    }
+
+    #ewaste-calculator button {
+        background: #00796b;         color: #fff;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+
+    #ewaste-calculator button:hover {
+        background: #004d40;    }
+   footer {
+    background: #00796b; 
+    color: #fff;
+    padding: 30px 20px;
+    text-align: left;
+}
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+}
+
+.footer-section {
+    flex: 1;
+    margin: 0 20px;
+}
+
+.footer-section h4 {
+    margin-bottom: 15px;
+}
+
+.footer-section p,
+.footer-section ul {
+    line-height: 1.6;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-section ul li {
+    margin: 10px 0;
+}
+
+.footer-section ul li a {
+    color: #b2ebf2;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-section ul li a:hover {
+    color: #ffffff;
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.footer-bottom p {
+    margin: 10px 0;
+}
+
+.social-links a {
+    color: #b2ebf2;
+    margin: 0 10px;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.social-links a:hover {
+    color: #ffffff;
+}
+ .social-links a {
+        color: #fff;
+        margin: 0 10px;
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+    .social-links a:hover {
+        color: #b2ebf2;     }
+ .fade-in {
+        animation: fadeIn 0.5s forwards;
+    }
+    .fade-out {
+        animation: fadeOut 0.5s forwards;
+    }
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+    @keyframes fadeOut {
+        from {
+            opacity: 1;
+        }
+        to {
+            opacity: 0;
+        }
+    }
+</style>
+</head>
+<body>
+      <header>
+        <div class="logo-container">
+            <img src="QU.png" alt="Ecoefficient Hub Logo" class="logo">
+            <h1>Ecoefficient Hub</h1>
+        </div>
+        <nav>
+            <ul>
+                
+                <li><a href="#calculator">E-Waste Calculator</a></li>
+                <li><a href="quiz1.html">Quiz</a></li>
+                <li><a href="research_and_case_studies.html">Reasearch & Case Studies</a></li>
+                <li><a href="testimonials.html">Testimonials</a></li>
+                <li><a href="about-us.html">About Us</a></li>
+            </ul>
+        </nav>
+    </header>
+    <section class="hero">
+        <h2>Reduce, Reuse, Recycle - Your Eco Journey Starts Here</h2>
+        <p>Your guide to reducing your e-waste footprint and taking action for a sustainable future.</p>
+    </section>
+
+    <section id="ewaste-info" class="content-section">
+        <h2>The Scale of the E-Waste Problem</h2>
+        <p>The production of e-waste has recently increased due to the growing global population and fast urbanization. Its inadequate management and inappropriate disposal pose a global threat to public health and the environment.</p>
+        <p>Modern lifestyles, technological development, and global economic expansion have resulted in an ever-growing amount of e-waste, which is a serious threat to the environment and public health.</p>
+        <p>Global waste production is estimated to be over two billion metric tons, of which 53.6 million are e-waste. Since 83% of the world's e-waste is undocumented, it is likely burned openly or illegally disposed of, endangering human health and the environment.</p>
+        <p>Electronic devices ranging from large household appliances, lighting devices, mechanical dispensers, medical devices, control and monitoring devices, and consumer electronics like toys, computers, mobile phones, leisure and sports equipment, and electrical and electronic devices are all considered forms of e-waste.</p>
+        <p>Pollutants found in e-waste include polybrominated diphenyl ethers (PBDEs), chlorinated biphenyls, mercury, lead, tin, nickel, and cadmium. Burning e-waste can also produce harmful substances to human health, such as furans, dioxins, aromatic polycyclic hydrocarbons (PAHs), and hydrogen chloride.</p>
+        <p>The most significant aspect of managing e-waste is recycling and recovering it, which has advantages for the environment, economy, and human health. E-waste is considered a resource only when valuable elements are recovered and repurposed.</p>
+    </section>
+    <section id="ewaste-challenges" class="content-section">
+        <h3>Challenges in E-Waste Recycling</h3>
+        <p>Recycling e-waste is a crucial source of raw materials since it contains various resources, including metals, glass, and polymers. Despite this, collection and recycling are so challenging that only 17.4% of the world's e-waste is collected and recycled.</p>
+        <p>Substances that contain these dangerous chemicals could harm the environment if they are not disposed of properly. To reduce the hazards to human health and the environment, proper waste management practices and the safe disposal of e-waste have gained international attention.</p>
+        <p>Recovery of valuable, rare earth, and beneficial elements while handling hazardous pollutants is a significant challenge in e-waste management. Physical handling of heavy goods, electrical safety, danger of cuts and abrasions, and explosions are among the challenges associated with e-waste recycling.</p>
+        <p>Chemical products, including dioxins, furans, and heavy metals, can be produced during e-waste recycling procedures such as incineration, acid baths, open burning, and metallic acid stripping.</p>
+    </section>
+
+    <section id="ewaste-strategies" class="content-section">
+        <h3>Reduce, Reuse, Recycle: Latest Strategies and Developments for a Greener World</h3>
+        <p>Although recovering resources from e-waste might lead to job and business opportunities, insufficient infrastructure and effective scientific technologies can hinder the process. Consequently, one of the most significant worldwide concerns of the 21st century appears to be recycling e-waste.</p>
+        <p>Despite the growing volume of e-waste, only a few official e-waste collection processes are in place. A considerable amount of e-waste is inappropriately combined with domestic waste and makes its way into landfills or unofficial organizations like scrap merchants, cooperatives, and garbage collectors.</p>
+        <p>Government-approved large-scale recycling plants are scarce. Recycling e-waste is also not economically feasible; thus, long-term viability requires careful planning from the beginning and technical advancement.</p>
+    </section>
+
+    <section id="ewaste-solutions" class="content-section">
+        <h3>Innovative Solutions and Technologies</h3>
+        <p>E-waste contains toxic elements that can have a substantial negative impact. Several advancements in e-waste recycling have emerged in recent years to reduce the negative environmental effects of e-waste. Some of the technological innovations are:</p>
+        <ul>
+            <li><strong>Automated Sorting and Dismantling:</strong> E-waste recycling has always included challenging sorting and dismantling. This procedure is expensive, time-consuming, and harmful to workers' health. Automated devices for sorting and disassembling have been developed to boost productivity and lower the possibility of exposure to dangerous substances.</li>
+            <li><strong>Chemical Recycling:</strong> Chemical recycling is the technique of using chemical processes to transform e-waste into valuable raw materials. Through this process, e-waste can be broken into parts, such as plastics and metals, which can be recycled into new products.</li>
+            <li><strong>Electronic Waste Collection and Recycling Kiosks:</strong> Kiosks for collecting and recycling electronic waste are convenient places where people can drop it off. Kiosks are usually found in public areas like shopping malls or community centers.</li>
+            <li><strong>Biotechnological Approaches:</strong> Researchers are investigating using microbes to extract valuable metals from electronic waste. Metals like copper, gold, and silver can be effectively extracted using these biological leaching and precipitation procedures, which reduces the need for hazardous chemical treatments.</li>
+        </ul>
+    </section>
+
+    <section id="ewaste-opportunities" class="content-section">
+        <h3>Opportunities in E-Waste Recycling</h3>
+        <p>Electronic waste offers tremendous possibilities and opportunities if effectively recycled. Valuable metals can be extracted from e-waste using an urban e-waste mining process. One metric ton of circuit boards may yield up to 1.5 kg of gold and 220 kg of copper.</p>
+        <p>Another potential advantage of managing e-waste is human and environmental health benefits. E-waste disposal has never been taken seriously in poorer nations, which has hurt the surrounding environment and public health. However, enacting and implementing e-waste management laws, policies, and strategies may significantly improve these circumstances.</p>
+    </section>
+    <section id="conclusion" class="content-section">
+        <h3>Conclusion</h3>
+        <p>Metal accounts for around 40% of e-waste, followed by plastic polymers (30%) and metal oxides (30%). Precious materials, base materials, hazardous materials, plastics, glass, ceramics, and other halogens are all present in e-waste. Unfortunately, 83% of the electronic waste produced worldwide is unregistered, implying that it is illegally dumped or burned in the open, endangering human health and the environment.</p>
+        <p>A coordinated effort by national and international agencies, including public awareness, is necessary to manage e-waste, which will play a significant part in the circular economy.</p>
+    </section> 
+    <section id="facts" class="section">
+        <h2>E-Waste Facts</h2>
+        <div class="fact">⚡ The world generates over 50 million tons of e-waste every year.</div>
+        <div class="fact">📱 Only 20% of global e-waste is formally recycled.</div>
+        <div class="fact">🌍 E-waste is growing at an annual rate of 3-5%.</div>
+    </section>
+    <section id="tips" class="section">
+        <h2>Eco-Friendly Tips</h2>
+        <div class="tip">💡 Donate old electronics instead of throwing them away.</div>
+        <div class="tip">🔋 Use rechargeable batteries whenever possible.</div>
+        <div class="tip">♻️ Buy refurbished electronics to reduce demand for new devices.</div>
+    </section>
+<section id="calculator" class="feature-section">
+        <center><h2>E-Waste Footprint Calculator</h2>
+        <p>Calculate your e-waste footprint by answering a few questions.</p></center>
+        <form id="ewaste-calculator">
+            <label for="device-count">How many electronic devices do you own?</label>
+            <input type="number" id="device-count" name="deviceCount" min="0" required>
+            <label for="average-use">Average use per day (in hours):</label>
+            <input type="number" id="average-use" name="averageUse" min="0" max="24" required>
+            <label for="upgrade-frequency">How often do you upgrade your devices? (in years)</label>
+            <input type="number" id="upgrade-frequency" name="upgradeFrequency" min="1" required>
+            <button type="button" onclick="calculateFootprint()">Calculate Footprint</button>
+        </form>
+        <div id="calculator-result" style="display: none;">
+            <h3>Your Estimated E-Waste Footprint:</h3>
+            <p id="footprint-result"></p>
+        </div>
+    </section>
+  <footer>
+    <div class="footer-content">
+        <div class="footer-section about">
+            <h4>About Ecoefficient Hub</h4>
+            <p>We aim to educate and empower individuals to reduce their e-waste footprint through recycling and responsible disposal of electronic devices.</p>
+        </div>
+        <div class="footer-section links">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="#calculator">E-Waste Calculator</a></li>
+                <li><a href="#map">Find a Recycling Center</a></li>
+                <li><a href="#schedule">Schedule Pickup</a></li>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#privacy">Privacy Policy</a></li>
+            </ul>
+        </div>
+        <div class="footer-section contact">
+            <h4>Contact Us</h4>
+            <p>Email: <a href="mailto:info@ecoefficienthub.com">info@ecoefficienthub.com</a></p>
+            <p>Phone: <a href="tel:+1234567890">+1 (234) 567-890</a></p>
+            <p>Address: 123 Eco St, Green City, Planet Earth</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2024 Ecoefficient Hub. All rights reserved.</p>
+        <div class="social-links">
+            <a href="#">Facebook</a>
+            <a href="#">Twitter</a>
+            <a href="#">Instagram</a>
+        </div>
+    </div>
+</footer>
+    <script>
+    function calculateFootprint() {
+        const deviceCount = document.getElementById('device-count').value;
+        const averageUse = document.getElementById('average-use').value;
+        const upgradeFrequency = document.getElementById('upgrade-frequency').value;
+
+        const footprint = (deviceCount * averageUse * 365) / (upgradeFrequency * 10);
+        document.getElementById('footprint-result').innerText = `${footprint.toFixed(2)} kg of e-waste per year.`;
+
+        const resultDiv = document.getElementById('calculator-result');
+        resultDiv.classList.remove('fade-out');
+        resultDiv.classList.add('fade-in');
+        resultDiv.style.display = 'block';
+        
+        setTimeout(() => {
+            resultDiv.classList.remove('fade-in');
+            resultDiv.classList.add('fade-out');
+        }, 3000); // Fade out after 3 seconds
+    }
+
+    function schedulePickup() {
+        const name = document.getElementById('name').value;
+        const address = document.getElementById('address').value;
+        const date = document.getElementById('date').value;
+
+        const confirmationText = `Pickup for ${name} at ${address} is scheduled for ${date}.`;
+        const confirmationDiv = document.getElementById('pickup-confirmation');
+        
+        confirmationDiv.classList.remove('fade-out');
+        confirmationDiv.classList.add('fade-in');
+        document.getElementById('confirmation-details').innerText = confirmationText;
+        confirmationDiv.style.display = 'block';
+
+        setTimeout(() => {
+            confirmationDiv.classList.remove('fade-in');
+            confirmationDiv.classList.add('fade-out');
+        }, 3000); // Fade out after 3 seconds
+    }
+function closeModal() {
+    const modal = document.querySelector('.modal');
+    if (modal) {
+        document.body.removeChild(modal);
+    }
+}
+</script>
+</body>
+</html>

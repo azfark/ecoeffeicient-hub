@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Waste Sustainability</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>/* General Styling */
+body {
+    font-family: 'Arial', sans-serif;
+    color: #004d40;
+    background-color: #e0f7fa;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+/* Section container */
+section {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #b2ebf2;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+/* Heading styling */
+h2 {
+    font-size: 36px;
+    color: #004d40;
+    text-align: center;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+h3 {
+    font-size: 28px;
+    color: #00695c;
+    margin-top: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #004d40;
+}
+
+h4 {
+    font-size: 22px;
+    color: #00796b;
+    margin-top: 15px;
+    text-transform: uppercase;
+}
+
+/* Paragraph styling */
+p {
+    font-size: 18px;
+    color: #004d40;
+    margin-bottom: 15px;
+    text-align: justify;
+    line-height: 1.8;
+}
+
+/* Highlighted text */
+strong {
+    color: #00796b;
+    font-weight: bold;
+}
+
+/* Lists styling */
+ul, ol {
+    margin-left: 20px;
+    padding-left: 10px;
+    color: #004d40;
+}
+
+li {
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+/* Quotes styling */
+blockquote {
+    background: #004d40;
+    color: white;
+    padding: 20px;
+    border-left: 5px solid #00796b;
+    font-size: 18px;
+    margin: 20px 0;
+    border-radius: 5px;
+}
+
+/* Links styling */
+a {
+    color: #00796b;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #004d40;
+    text-decoration: underline;
+}
+
+/* Responsive typography */
+@media (max-width: 768px) {
+    h2 {
+        font-size: 30px;
+    }
+
+    h3 {
+        font-size: 24px;
+    }
+
+    h4 {
+        font-size: 20px;
+    }
+
+    p {
+        font-size: 16px;
+    }
+}
+
+/* Section box hover effect */
+section:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* Scroll-to-top button */
+#scrollTopBtn {
+    display: none;
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 99;
+    border: none;
+    outline: none;
+    background-color: #004d40;
+    color: white;
+    cursor: pointer;
+    padding: 15px;
+    border-radius: 50%;
+    font-size: 18px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#scrollTopBtn:hover {
+    background-color: #00796b;
+}
+
+/* Smooth scroll effect */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Blockquote Styling */
+blockquote {
+    background: #004d40;
+    color: white;
+    padding: 20px;
+    border-left: 5px solid #00796b;
+    margin: 20px 0;
+    border-radius: 8px;
+    font-style: italic;
+    font-size: 18px;
+}
+
+/* Enhancing visuals for data points and figures */
+.data-point {
+    font-size: 24px;
+    color: #004d40;
+    background-color: #b2ebf2;
+    padding: 10px 15px;
+    border-radius: 5px;
+    display: inline-block;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.data-point:hover {
+    background-color: #004d40;
+    color: #b2ebf2;
+    transition: background-color 0.3s ease-in-out;
+}
+
+/* Graphs container styling */
+.graph-container {
+    background-color: #f0f4c3;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin-bottom: 30px;
+}
+
+/* Charts Styling */
+.chart-title {
+    font-size: 22px;
+    color: #004d40;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+/* Enhancing tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+table th, table td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #004d40;
+}
+
+table th {
+    background-color: #004d40;
+    color: white;
+}
+
+table td {
+    background-color: #b2ebf2;
+    color: #004d40;
+}
+
+table tr:nth-child(even) td {
+    background-color: #e0f7fa;
+}
+
+/* Section transitions */
+section {
+    transition: all 0.3s ease-in-out;
+}
+
+section:hover {
+    transform: scale(1.02);
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+}
+
+.footer-section {
+    flex: 1;
+    margin: 0 20px;
+}
+
+.footer-section h4 {
+    margin-bottom: 15px;
+}
+
+.footer-section p,
+.footer-section ul {
+    line-height: 1.6;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-section ul li {
+    margin: 10px 0;
+}
+
+.footer-section ul li a {
+    color: #b2ebf2;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-section ul li a:hover {
+    color: #ffffff;
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.footer-bottom p {
+    margin: 10px 0;
+}
+
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <center><h1>Research & Case Studies</h1></center>
+    </header>
+    <!-- Main Content -->
+    <main>
+        <!-- Impact Section -->
+        <section>
+            <h2>Understanding the Impact of E-Waste</h2>
+            <div class="grid-2">
+                <div>
+                    <h3>Environmental Impact</h3>
+                    <p>E-waste contains hazardous materials like lead, mercury, and cadmium that can contaminate soil and water, leading to significant environmental degradation.</p>
+                </div>
+                <div>
+                    <h3>Health Risks</h3>
+                    <p>Improper handling and disposal of e-waste expose humans to toxic chemicals that cause serious health issues, particularly in informal recycling sectors.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- E-Waste Growth Chart Section -->
+        <section>
+            <h2>Global E-Waste Growth Projections</h2>
+            <div class="chart-container">
+                <canvas id="ewasteGrowthGraph"></canvas>
+            </div>
+        </section>
+<!-- Case Study: Sweden's E-Waste Recycling Section -->
+<section>
+    <h2>Case Study: Sweden's E-Waste Recycling</h2>
+
+    <!-- Overview -->
+    <h3>Overview</h3>
+    <p>Sweden has established itself as a global leader in e-waste management, boasting one of the highest rates of e-waste recycling worldwide. The country recycles approximately 90% of its e-waste, demonstrating that a well-organized, circular economy approach to electronics disposal is both possible and beneficial. This success is the result of a combination of progressive legislation, consumer awareness, and innovative recycling practices.</p>
+
+    <!-- Key Factors for Success -->
+    <h3>Key Factors for Success</h3>
+    
+    <h4>1. Government Legislation and Extended Producer Responsibility (EPR)</h4>
+    <p>Sweden was one of the first countries to adopt <strong>Extended Producer Responsibility (EPR)</strong> policies, which hold manufacturers responsible for the entire lifecycle of their products, including their disposal. Under EPR, electronics manufacturers are required to fund and manage e-waste collection, treatment, and recycling. This encourages companies to design products with sustainability in mind, aiming to make them more recyclable or reusable at the end of their life cycle.</p>
+
+    <h4>2. Robust Collection Infrastructure</h4>
+    <p>Sweden has an extensive network of <strong>electronic waste collection points</strong> throughout the country. Municipalities provide convenient drop-off points at recycling centers and retail stores. Consumers are encouraged to bring their old electronics to these centers where they can be recycled for free. The easy accessibility of these points ensures that e-waste is managed responsibly, rather than being discarded improperly.</p>
+
+    <h4>3. Recycling Rates and Processes</h4>
+    <p>Sweden is part of the European Union's <strong>Waste Electrical and Electronic Equipment (WEEE) Directive</strong>, which sets ambitious targets for e-waste collection and recycling. As a result, Sweden recycles or reuses approximately <strong>95%</strong> of the materials from its e-waste. Electronic items such as refrigerators, computers, televisions, and mobile phones are dismantled and sorted into components like metals, plastics, and glass. Many of these materials are recovered and fed back into the production cycle, reducing the need for virgin resources.</p>
+
+    <h4>4. Consumer Awareness Campaigns</h4>
+    <p>Public awareness of e-waste recycling is high in Sweden, thanks to government-led campaigns that educate consumers on the environmental benefits of proper e-waste disposal. One notable program is the <strong>"Pant på Elektronik" (Deposit on Electronics)</strong> initiative, which operates similarly to the deposit return scheme for bottles. Consumers receive a financial incentive to return small electronic items such as phones and chargers for recycling.</p>
+
+    <h4>5. Innovative Recycling Technology</h4>
+    <p>Sweden is home to cutting-edge recycling facilities such as the <strong>Stena Nordic Recycling Center</strong>, one of Europe’s most advanced recycling plants. This facility processes around <strong>50,000 tons of e-waste</strong> annually, using state-of-the-art technology to sort and recover valuable materials like rare earth metals, precious metals (gold, silver), and high-quality plastics. These materials are then reintroduced into manufacturing, promoting a circular economy.</p>
+
+    <!-- Environmental and Economic Impact -->
+    <h3>Environmental and Economic Impact</h3>
+    
+    <h4>1. Reduction in Landfill Waste</h4>
+    <p>The country has drastically reduced the amount of e-waste sent to landfills, preventing hazardous materials from contaminating soil and water. Sweden’s recycling processes recover valuable raw materials from e-waste, which would otherwise require environmentally damaging mining activities.</p>
+
+    <h4>2. Energy Savings and Carbon Emissions Reduction</h4>
+    <p>Recycling metals such as aluminum, copper, and steel from e-waste uses far less energy than mining new materials. Sweden's efforts are estimated to save <strong>over 700,000 tons of CO₂ emissions</strong> annually, equivalent to the carbon footprint of <strong>150,000 cars</strong>.</p>
+
+    <h4>3. Job Creation and Economic Growth</h4>
+    <p>The e-waste recycling industry in Sweden has created jobs across the country, from collection services to high-tech recycling plant operations. By recovering materials such as rare earth metals, Sweden also reduces its dependency on imports, which strengthens the economy and promotes sustainability in the technology sector.</p>
+
+    <!-- Challenges and Future Prospects -->
+    <h3>Challenges and Future Prospects</h3>
+    
+    <h4>1. Increasing Consumer Electronics Waste</h4>
+    <p>With the rapid pace of technological innovation, the lifespan of electronic devices is shortening. More products are being discarded in shorter cycles, increasing the total amount of e-waste. There is also a growing concern about <strong>informal recycling</strong> in developing countries, where e-waste from Europe is sometimes exported illegally, despite strict regulations.</p>
+
+    <h4>2. Enhancing Recycling Efficiency</h4>
+    <p>While Sweden’s recycling systems are highly efficient, <strong>improving the recovery rate</strong> of rare earth metals and other valuable materials remains a challenge. New methods are being developed, such as chemical extraction and bioleaching, to recover more materials from complex electronics, but scaling these technologies is expensive and time-consuming.</p>
+
+    <h4>3. Encouraging Sustainable Design</h4>
+    <p>Manufacturers still face pressure to produce devices that are harder to recycle due to the use of mixed materials, glued components, and non-removable batteries. Moving towards more <strong>modular and recyclable designs</strong> will be crucial to further reducing e-waste in the future.</p>
+
+    <!-- Conclusion -->
+    <h3>Conclusion</h3>
+    <p>Sweden’s e-waste recycling system is a model for other countries to follow. Through strong legislation, convenient collection systems, and advanced recycling technologies, Sweden has demonstrated that it is possible to recover valuable materials from electronic waste while reducing environmental harm. However, as the amount of e-waste continues to grow, ongoing innovation and international cooperation will be needed to ensure the sustainability of e-waste management practices in the future.</p>
+</section>
+        <!-- Additional Research Papers -->
+        <section>
+            <h2>Key Research Papers</h2>
+            <ul>
+                <li><strong>"Global E-Waste Monitor 2020"</strong> - Provides data on global e-waste generation and recycling rates. <a href="https://www.itu.int/en/ITU-D/Statistics/Pages/publications/globale-waste.aspx" target="_blank">Read the full report</a>.</li>
+                <li><strong>"Health and Environmental Impacts of E-Waste"</strong> - WHO study emphasizing the public health hazards of e-waste. <a href="https://www.who.int/publications/i/item/9789240018278" target="_blank">Read the study</a>.</li>
+            </ul>
+        </section>
+    </main>
+<footer>
+    <div class="footer-content">
+        <div class="footer-section about">
+            <h4>About Ecoefficient Hub</h4>
+            <p>We aim to educate and empower individuals to reduce their e-waste footprint through recycling and responsible disposal of electronic devices.</p>
+        </div>
+        <div class="footer-section links">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="#calculator">E-Waste Calculator</a></li>
+                <li><a href="#map">Find a Recycling Center</a></li>
+                <li><a href="#schedule">Schedule Pickup</a></li>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#privacy">Privacy Policy</a></li>
+            </ul>
+        </div>
+        <div class="footer-section contact">
+            <h4>Contact Us</h4>
+            <p>Email: <a href="mailto:info@ecoefficienthub.com">info@ecoefficienthub.com</a></p>
+            <p>Phone: <a href="tel:+1234567890">+1 (234) 567-890</a></p>
+            <p>Address: 123 Eco St, Green City, Planet Earth</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2024 Ecoefficient Hub. All rights reserved.</p>
+        <div class="social-links">
+            <a href="#">Facebook</a>
+            <a href="#">Twitter</a>
+            <a href="#">Instagram</a>
+        </div>
+    </div>
+</footer>
+    <!-- Chart.js Script for Graph -->
+    <script>
+        const ctx = document.getElementById('ewasteGrowthGraph').getContext('2d');
+        const ewasteGrowthGraph = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['2023', '2024', '2025', '2026', '2027', '2028', '2029', '2030'],
+                datasets: [{
+                    label: 'Global E-Waste (Million Tons)',
+                    data: [59, 61, 63, 66, 68, 71, 73, 75],
+                    backgroundColor: '#b2ebf2',
+                    borderColor: '#00695c',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: {
+                            font: {
+                                size: 14
+                            }
+                        }
+                    }
+                }
+            }
+        });
+// Scroll-to-top functionality
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+    const scrollTopBtn = document.getElementById("scrollTopBtn");
+    if (document.body.scrollTop > 400 || document.documentElement.scrollTop > 400) {
+        scrollTopBtn.style.display = "block";
+    } else {
+        scrollTopBtn.style.display = "none";
+    }
+}
+
+function scrollToTop() {
+    document.body.scrollTop = 0;  // For Safari
+    document.documentElement.scrollTop = 0;  // For Chrome, Firefox, IE, and Opera
+}
+
+    </script>
+<!-- Scroll to Top Button -->
+<button id="scrollTopBtn" onclick="scrollToTop()">↑</button>
+
+</body>
+</html>
